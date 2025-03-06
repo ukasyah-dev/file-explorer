@@ -10,7 +10,7 @@ export class ItemRepository implements IItemRepository {
   constructor(db: BunSQLDatabase) {}
 
   async listDirectory(path: string): Promise<Item[]> {
-    throw new Error("Not implemented");
+    return [];
   }
 
   async readFile(path: string): Promise<string> {
