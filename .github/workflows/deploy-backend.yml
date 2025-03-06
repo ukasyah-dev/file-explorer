@@ -1,4 +1,4 @@
-name: Deploy Backend
+name: Deploy backend
 
 on:
   push:
@@ -43,13 +43,17 @@ jobs:
         uses: actions/cache@v4
         id: cache
         with:
-          path: bun
+          path: |
+            root-bun
           key: cache-${{ hashFiles('packages/backend/Dockerfile') }}
 
       - name: Inject cache into docker
         uses: reproducible-containers/buildkit-cache-dance@v3.1.2
         with:
-          cache-map: '{"bun": "/root/.bun"}'
+          cache-map: |
+            {
+              "root-bun": "/root/.bun"
+            }
           skip-extraction: ${{ steps.cache.outputs.cache-hit }}
 
       - name: Build and push Docker image
