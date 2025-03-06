@@ -4,7 +4,7 @@
     "": {
       "name": "file-explorer",
     },
-    "packages/backend": {
+    "apps/backend": {
       "name": "backend",
       "version": "0.1.0",
       "dependencies": {
@@ -14,7 +14,7 @@
         "bun-types": "^1.2.4",
       },
     },
-    "packages/frontend": {
+    "apps/frontend": {
       "name": "frontend",
       "version": "0.1.0",
       "dependencies": {
@@ -438,7 +438,7 @@
 
     "axios": ["axios@1.8.1", "", { "dependencies": { "follow-redirects": "^1.15.6", "form-data": "^4.0.0", "proxy-from-env": "^1.1.0" } }, "sha512-NN+fvwH/kV01dYUQ3PTOZns4LWtWhOFCAhQ/pHb88WQ1hNe5V/dvFwc4VJcDL11LT9xSX0QtsR8sWUuyOuOq7g=="],
 
-    "backend": ["backend@workspace:packages/backend"],
+    "backend": ["backend@workspace:apps/backend"],
 
     "balanced-match": ["balanced-match@1.0.2", "", {}, "sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw=="],
 
@@ -676,7 +676,7 @@
 
     "from": ["from@0.1.7", "", {}, "sha512-twe20eF1OxVxp/ML/kq2p1uc6KvFK/+vs8WjEbeKmV2He22MKm7YF2ANIt+EOqhJ5L3K/SuuPhk0hWQDjOM23g=="],
 
-    "frontend": ["frontend@workspace:packages/frontend"],
+    "frontend": ["frontend@workspace:apps/frontend"],
 
     "fs-extra": ["fs-extra@9.1.0", "", { "dependencies": { "at-least-node": "^1.0.0", "graceful-fs": "^4.2.0", "jsonfile": "^6.0.1", "universalify": "^2.0.0" } }, "sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ=="],
 

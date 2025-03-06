@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - '.github/workflows/deploy-backend.yml'
-      - 'packages/backend/**'
+      - 'apps/backend/**'
 
 env:
   IMAGE_NAME: ${{ github.repository }}-backend
@@ -46,7 +46,7 @@ jobs:
         with:
           path: |
             root-bun
-          key: cache-${{ hashFiles('packages/backend/Dockerfile') }}
+          key: cache-${{ hashFiles('apps/backend/Dockerfile') }}
 
       - name: Inject cache into docker
         uses: reproducible-containers/buildkit-cache-dance@v3.1.2
@@ -61,7 +61,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: packages/backend/Dockerfile
+          file: apps/backend/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
