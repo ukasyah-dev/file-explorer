@@ -8,7 +8,7 @@ on:
       - 'packages/backend/**'
 
 env:
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository }}-backend
   REGISTRY: ghcr.io
 
 jobs:
@@ -56,6 +56,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: packages/backend/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
