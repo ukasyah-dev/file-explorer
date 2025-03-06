@@ -8,10 +8,10 @@
       "name": "backend",
       "version": "0.1.0",
       "dependencies": {
-        "elysia": "latest",
+        "elysia": "^1.2.24",
       },
       "devDependencies": {
-        "bun-types": "latest",
+        "bun-types": "^1.2.4",
       },
     },
     "packages/frontend": {
