@@ -3,7 +3,7 @@ WORKDIR /code
 COPY . .
 WORKDIR /code/packages/backend
 RUN --mount=type=cache,target=/root/.bun,sharing=locked \
-  bun install --frozen-lockfile && \
+  bun install --frozen-lockfile --ignore-scripts && \
   bun build \
     --compile \
     --minify-whitespace \
