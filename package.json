@@ -1,0 +1,7 @@
+{
+  "name": "file-explorer",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
