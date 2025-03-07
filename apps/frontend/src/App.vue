@@ -2,15 +2,13 @@
 // import { RouterLink, RouterView } from 'vue-router'
 // import HelloWorld from './components/HelloWorld.vue'
 import Sidebar from './components/Sidebar.vue';
+import Viewer from './components/Viewer.vue';
 </script>
 
 <template>
   <div class="h-full flex bg-white">
     <Sidebar />
-
-    <div class="flex-1">
-
-    </div>
+    <Viewer />
   </div>
 
   <!-- <header>

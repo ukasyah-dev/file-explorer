@@ -36,7 +36,7 @@ const items: Item[] = [
       File Explorer
     </p>
 
-    <div class="mt-4">
+    <div class="mt-2 px-3">
       <Tree :items="items" />
     </div>
     <!-- <pre>{{ JSON.stringify(items, null, 2) }}</pre> -->
