@@ -4,11 +4,11 @@ import { viewer } from '@/stores';
 
 <template>
   <div class="flex-1 flex">
-    <p v-if="!viewer.path" class="m-auto text-center text-gray-500">
+    <p v-if="!viewer.item" class="m-auto text-center text-gray-500">
       Click a folder or file to view its contents
     </p>
-    <p v-else class="m-auto">
-    <pre>{{ JSON.stringify(viewer, null, 2) }}</pre>
-    </p>
+    <div v-else class="m-auto">
+      <pre>{{ JSON.stringify(viewer, null, 2) }}</pre>
+    </div>
   </div>
 </template>

@@ -31,7 +31,7 @@ const items: Item[] = [
 </script>
 
 <template>
-  <div class="w-80 bg-gray-100 border-b border-gray-300">
+  <div class="w-64 bg-gray-100 border-b border-gray-300">
     <p class="text-2xl font-semibold px-6 py-5">
       File Explorer
     </p>
@@ -39,6 +39,5 @@ const items: Item[] = [
     <div class="mt-2 px-3">
       <Tree :items="items" />
     </div>
-    <!-- <pre>{{ JSON.stringify(items, null, 2) }}</pre> -->
   </div>
 </template>

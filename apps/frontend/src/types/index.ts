@@ -3,6 +3,5 @@ export type Item = {
   name: string
   parentDir?: string
   isDir: boolean
-  isOpen?: boolean
   items?: Item[]
 }
