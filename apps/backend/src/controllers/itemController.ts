@@ -5,8 +5,21 @@ export const itemController = (itemService: ItemService) => {
   return new Elysia().group("/items", (app) => {
     app.get(
       "/browse/*",
-      async ({ params }) => {
-        const result = await itemService.listItems(params["*"]);
+      async ({ params, query }) => {
+        let cursor: { isDir: boolean; name: string } | undefined = undefined;
+
+        if ("cursor.isDir" in query && "cursor.name" in query) {
+          cursor = {
+            isDir: query["cursor.isDir"] === "true",
+            name: query["cursor.name"],
+          };
+        }
+        // console.log("http query:", query);
+
+        const result = await itemService.listItems({
+          path: params["*"],
+          cursor,
+        });
         return result;
       },
       {

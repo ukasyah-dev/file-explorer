@@ -1,10 +1,15 @@
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { BunSQLDatabase } from "drizzle-orm/bun-sql";
 import * as schema from "../db/schema";
-import { Item, ListItemsResponse, ViewItemResponse } from "../models";
+import {
+  Item,
+  ListItemsRequest,
+  ListItemsResponse,
+  ViewItemResponse,
+} from "../models";
 
 export interface IItemRepository {
-  listItems(path: string): Promise<ListItemsResponse>;
+  listItems(req: ListItemsRequest): Promise<ListItemsResponse>;
   viewItem(path: string): Promise<ViewItemResponse>;
 }
 
@@ -15,17 +20,28 @@ export class ItemRepository implements IItemRepository {
     this.db = db;
   }
 
-  async listItems(path: string): Promise<ListItemsResponse> {
+  async listItems(req: ListItemsRequest): Promise<ListItemsResponse> {
+    const path = "/" + req.path;
+    const limit = 2;
+
     let items: Item[] = [];
 
     try {
-      const rows = await this.db.query.items.findMany({
-        columns: {
-          content: false,
-        },
-        where: eq(schema.items.parentDir, "/" + path),
-        orderBy: [desc(schema.items.isDir), asc(schema.items.name)],
-      });
+      // Drizzle ORM doesn't support gt operator for string column, so we have to use raw SQL
+      let query = sql`SELECT "id", "name", "parentDir", "isDir", "size", "createdAt", "updatedAt"`;
+      query.append(sql` FROM ${schema.items}`);
+      query.append(sql` WHERE ${schema.items.parentDir} = ${path}`);
+
+      if (req.cursor) {
+        query.append(sql` AND ${schema.items.name} > ${req.cursor.name}`);
+      }
+
+      query.append(
+        sql` ORDER BY ${schema.items.isDir} DESC, ${schema.items.name} ASC`
+      );
+      query.append(sql` LIMIT ${limit}`);
+
+      const rows = await this.db.execute(query);
 
       for (const row of rows) {
         items.push({
@@ -86,7 +102,7 @@ export class MockItemRepository implements IItemRepository {
     this.items = items || [];
   }
 
-  listItems(path: string): Promise<ListItemsResponse> {
+  listItems(req: ListItemsRequest): Promise<ListItemsResponse> {
     return Promise.resolve({ data: this.items });
   }
 

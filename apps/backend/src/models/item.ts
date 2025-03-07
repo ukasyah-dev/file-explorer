@@ -9,6 +9,15 @@ export interface Item {
   updatedAt: Date;
 }
 
+export interface ListItemsRequest {
+  path: string;
+  cursor?: {
+    isDir: boolean;
+    name: String;
+  };
+  search?: string;
+}
+
 export interface ListItemsResponse {
   data: Item[];
 }
