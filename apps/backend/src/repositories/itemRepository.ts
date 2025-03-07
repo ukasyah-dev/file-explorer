@@ -16,10 +16,18 @@ export class ItemRepository implements IItemRepository {
   }
 
   async listDirectory(path: string): Promise<Item[]> {
-    return this.db
-      .select()
-      .from(schema.items)
-      .where(eq(schema.items.parentDir, path));
+    let result: Item[] = [];
+
+    try {
+      result = await this.db
+        .select()
+        .from(schema.items)
+        .where(eq(schema.items.parentDir, "/" + path));
+    } catch (error) {
+      console.error(error);
+    }
+
+    return result;
   }
 
   async readFile(path: string): Promise<string> {
