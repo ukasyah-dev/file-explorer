@@ -8,7 +8,7 @@ defineProps<{
   items: Item[]
 }>()
 
-const expandedItemIds = ref<number[]>([1])
+const expandedItemIds = ref<number[]>([])
 
 const toggleOpen = (item: Item) => {
   viewer.item = item
@@ -30,7 +30,7 @@ const toggleExpand = (item: Item) => {
         <TreeItem :item="item" :is-expanded="expandedItemIds.includes(item.id)" @item-click="toggleOpen"
           @chevron-click="toggleExpand" />
 
-        <div v-if="expandedItemIds.includes(item.id)" class="pl-8">
+        <div v-if="expandedItemIds.includes(item.id)" class="pl-6">
           <Tree v-if="item.items" :items="item.items" />
         </div>
       </div>
