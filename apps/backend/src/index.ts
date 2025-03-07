@@ -1,6 +1,7 @@
 import { drizzle } from "drizzle-orm/bun-sql";
 import { Elysia } from "elysia";
 import { Config } from "./config";
+import * as schema from "./db/schema";
 import { ItemRepository } from "./repositories";
 import { ItemService } from "./services";
 import { itemController } from "./controllers";
@@ -9,6 +10,7 @@ const config = new Config();
 
 const db = drizzle(config.databaseUrl, {
   logger: false,
+  schema,
 });
 
 const itemRepository = new ItemRepository(db);

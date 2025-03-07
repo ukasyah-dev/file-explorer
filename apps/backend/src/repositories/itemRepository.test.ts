@@ -6,14 +6,41 @@ describe("listDirectory", () => {
 
   beforeAll(async () => {
     itemRepository = new MockItemRepository([
-      { id: 1, name: "test.txt", parentDir: "/", isDir: false, size: 0 },
-      { id: 2, name: "test2.txt", parentDir: "/", isDir: false, size: 0 },
-      { id: 3, name: "test3.txt", parentDir: "/", isDir: false, size: 0 },
+      {
+        id: 1,
+        name: "test.txt",
+        parentDir: "/",
+        isDir: false,
+        size: 0,
+        content: "test",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 2,
+        name: "test2.txt",
+        parentDir: "/",
+        isDir: false,
+        size: 0,
+        content: "test",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 3,
+        name: "test3.txt",
+        parentDir: "/",
+        isDir: false,
+        size: 0,
+        content: "test",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   });
 
   test("success", async () => {
-    const items = await itemRepository.listDirectory("/");
+    const items = await itemRepository.listItems("/");
     expect(items).toHaveLength(3);
   });
 });

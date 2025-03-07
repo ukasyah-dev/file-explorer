@@ -1,14 +1,14 @@
-import { Item } from "../models";
+import { ListItemsResponse, ViewItemResponse } from "../models";
 import { IItemRepository } from "../repositories";
 
 export class ItemService {
   constructor(private itemRepository: IItemRepository) {}
 
-  async listDirectory(path: string): Promise<Item[]> {
-    return this.itemRepository.listDirectory(path);
+  async listItems(path: string): Promise<ListItemsResponse> {
+    return this.itemRepository.listItems(path);
   }
 
-  async readFile(path: string): Promise<string> {
-    return this.itemRepository.readFile(path);
+  async viewItem(path: string): Promise<ViewItemResponse> {
+    return this.itemRepository.viewItem(path);
   }
 }

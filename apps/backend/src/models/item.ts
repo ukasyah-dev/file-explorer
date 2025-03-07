@@ -4,4 +4,15 @@ export interface Item {
   parentDir: string;
   isDir: boolean;
   size: number;
+  content?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ListItemsResponse {
+  data: Item[];
+}
+
+export interface ViewItemResponse {
+  data: Item;
 }
