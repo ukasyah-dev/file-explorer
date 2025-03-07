@@ -1,10 +1,11 @@
+import swagger from "@elysiajs/swagger";
 import { drizzle } from "drizzle-orm/bun-sql";
 import { Elysia } from "elysia";
 import { Config } from "./config";
-import { ItemRepository } from "./repositories";
-import { ItemService } from "./services";
-import { ItemRoute } from "./routes";
 import * as schema from "./db/schema";
+import { ItemRepository } from "./repositories";
+import { ItemRoute } from "./routes";
+import { ItemService } from "./services";
 
 const config = new Config();
 
@@ -17,7 +18,7 @@ console.log(`Total items: ${totalItems}`);
 const itemRepository = new ItemRepository(db);
 const itemService = new ItemService(itemRepository);
 
-const router = new Elysia().get("/", () => "Hello Elysia");
+const router = new Elysia().use(swagger()).get("/", () => "Hello Elysia");
 new ItemRoute(router, itemService);
 
 const app = router.listen(config.httpPort);

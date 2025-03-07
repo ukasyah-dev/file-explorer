@@ -1,6 +1,7 @@
 import { BunSQLDatabase } from "drizzle-orm/bun-sql";
 import * as schema from "../db/schema";
 import { Item } from "../models";
+import { eq } from "drizzle-orm";
 
 export interface IItemRepository {
   listDirectory(path: string): Promise<Item[]>;
@@ -15,7 +16,10 @@ export class ItemRepository implements IItemRepository {
   }
 
   async listDirectory(path: string): Promise<Item[]> {
-    return this.db.select().from(schema.items);
+    return this.db
+      .select()
+      .from(schema.items)
+      .where(eq(schema.items.parentDir, path));
   }
 
   async readFile(path: string): Promise<string> {
