@@ -1,5 +1,6 @@
 import { drizzle } from "drizzle-orm/bun-sql";
 import { Elysia } from "elysia";
+import { cors } from "@elysiajs/cors";
 import { Config } from "./config";
 import * as schema from "./db/schema";
 import { ItemRepository } from "./repositories";
@@ -17,6 +18,7 @@ const itemRepository = new ItemRepository(db);
 const itemService = new ItemService(itemRepository);
 
 const router = new Elysia()
+  .use(cors())
   .get("/", () => "Hello Elysia")
   .use(itemController(itemService));
 
