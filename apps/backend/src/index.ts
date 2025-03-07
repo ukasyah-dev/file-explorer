@@ -3,11 +3,16 @@ import { Elysia } from "elysia";
 import { Config } from "./config";
 import { ItemRepository } from "./repositories";
 import { ItemService } from "./services";
-import { ItemRoute } from "./routes/itemRoute";
+import { ItemRoute } from "./routes";
+import * as schema from "./db/schema";
 
 const config = new Config();
 
 const db = drizzle(config.databaseUrl);
+
+const totalItems = await db.$count(schema.items);
+
+console.log(`Total items: ${totalItems}`);
 
 const itemRepository = new ItemRepository(db);
 const itemService = new ItemService(itemRepository);
