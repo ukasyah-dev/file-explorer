@@ -10,7 +10,7 @@ import { itemController } from "./controllers";
 const config = new Config();
 
 const db = drizzle(config.databaseUrl, {
-  logger: true,
+  logger: false,
   schema,
 });
 

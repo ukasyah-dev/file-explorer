@@ -1,8 +1,4 @@
-import {
-  ListItemsRequest,
-  ListItemsResponse,
-  ViewItemResponse,
-} from "../models";
+import { ListItemsRequest, ListItemsResponse } from "../models";
 import { IItemRepository } from "../repositories";
 
 export class ItemService {
@@ -10,9 +6,5 @@ export class ItemService {
 
   async listItems(req: ListItemsRequest): Promise<ListItemsResponse> {
     return this.itemRepository.listItems(req);
-  }
-
-  async viewItem(path: string): Promise<ViewItemResponse> {
-    return this.itemRepository.viewItem(path);
   }
 }

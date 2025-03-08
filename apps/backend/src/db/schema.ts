@@ -1,5 +1,4 @@
 import {
-  boolean,
   integer,
   pgTable,
   text,
@@ -10,10 +9,8 @@ import {
 export const items = pgTable("items", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   name: varchar({ length: 255 }).notNull(),
-  parentDir: text().notNull(),
-  isDir: boolean().notNull(),
-  size: integer().notNull(),
-  content: text(),
+  type: varchar({ length: 30 }).notNull(),
+  folder: text().notNull(),
   createdAt: timestamp().notNull().defaultNow(),
   updatedAt: timestamp()
     .notNull()
