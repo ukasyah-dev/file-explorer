@@ -5,8 +5,12 @@ import Viewer from './views/Viewer.vue'
 </script>
 
 <template>
-  <div class="h-full flex bg-white">
+  <div class="h-full hidden lg:flex bg-white">
     <Sidebar />
     <Viewer />
+  </div>
+
+  <div class="h-full flex lg:hidden items-center justify-center px-6">
+    <p class="text-gray-600">Please use another device with larger screen</p>
   </div>
 </template>

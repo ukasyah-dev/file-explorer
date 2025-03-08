@@ -42,7 +42,7 @@ watch(viewer, async (v) => {
       <div class="relative mt-3">
         <!-- Skeleton -->
         <Transition>
-          <div v-if="isLoading" class="absolute z-10 inset-x-0 grid grid-cols-7 gap-8 opacity-60">
+          <div v-if="isLoading" class="absolute z-10 inset-x-0 grid grid-cols-6 xl:grid-cols-7 gap-8 opacity-60">
             <div v-for="i in 3" :key="i" class="flex flex-col items-center gap-3">
               <div class="h-16 flex items-center justify-center">
                 <div class="w-20 h-16 bg-gray-300 rounded-md animate-pulse animate-duration-[1.25s] duration-75"></div>
@@ -53,7 +53,7 @@ watch(viewer, async (v) => {
         </Transition>
 
         <Transition>
-          <div v-if="!isLoading" class="grid grid-cols-7 gap-8">
+          <div v-if="!isLoading" class="grid grid-cols-6 xl:grid-cols-7 gap-8">
             <div v-for="item in items" :key="item.id">
               <div v-if="item.type === 'folder'" class="flex flex-col items-center gap-1.5 cursor-pointer"
                 @click="viewer.item = item">
