@@ -8,6 +8,7 @@ RUN --mount=type=cache,target=/root/.bun,sharing=locked \
   --mount=type=cache,target=/root/.cache,sharing=locked \
   bun install --frozen-lockfile
 WORKDIR /code/apps/frontend
+ENV VITE_API_URL=https://file-explorer-backend.ukasyah.dev
 RUN bun run build-only
 
 FROM busybox:1.37.0
