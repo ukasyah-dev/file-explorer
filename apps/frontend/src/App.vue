@@ -11,6 +11,6 @@ import Viewer from './views/Viewer.vue'
   </div>
 
   <div class="h-full flex lg:hidden items-center justify-center px-6">
-    <p class="text-gray-600">Please use another device with larger screen</p>
+    <p class="text-center text-gray-600">Please use another device with larger screen</p>
   </div>
 </template>
