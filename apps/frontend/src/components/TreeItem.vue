@@ -10,7 +10,7 @@ defineProps<{
 <template>
   <div v-if="item.isDir" class="relative">
     <!-- Expand icon button -->
-    <div class="absolute inset-y-0 w-8 flex items-center justify-center">
+    <div v-if="item.items && item.items.length" class="absolute inset-y-0 w-8 flex items-center justify-center">
       <button
         class="w-6 h-6 rounded-lg flex items-center justify-center transition duration-100 cursor-pointer hover:bg-gray-200"
         @click="$emit('chevronClick', item)">

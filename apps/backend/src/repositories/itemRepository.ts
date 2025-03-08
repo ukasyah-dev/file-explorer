@@ -3,6 +3,7 @@ import { BunSQLDatabase } from "drizzle-orm/bun-sql";
 import * as schema from "../db/schema";
 import {
   Item,
+  ItemObject,
   ListItemsRequest,
   ListItemsResponse,
   ViewItemResponse,
@@ -22,37 +23,101 @@ export class ItemRepository implements IItemRepository {
 
   async listItems(req: ListItemsRequest): Promise<ListItemsResponse> {
     const path = "/" + req.path;
-    const limit = 2;
+    const limit = 25;
 
     let items: Item[] = [];
 
     try {
       // Drizzle ORM doesn't support gt operator for string column, so we have to use raw SQL
-      let query = sql`SELECT "id", "name", "parentDir", "isDir", "size", "createdAt", "updatedAt"`;
-      query.append(sql` FROM ${schema.items}`);
-      query.append(sql` WHERE ${schema.items.parentDir} = ${path}`);
+      let query = sql`SELECT * FROM ${schema.items}`;
+
+      // If the request is nested, all items under the path will be retrieved
+      // Otherwise, only items in the path will be retrieved
+      if (req.isNested) {
+        query.append(sql` WHERE ${schema.items.parentDir} LIKE ${`${path}%`}`);
+      } else {
+        query.append(sql` WHERE ${schema.items.parentDir} = ${path}`);
+      }
+
+      if (req.isDir) {
+        query.append(sql` AND ${schema.items.isDir} = ${req.isDir}`);
+      }
 
       if (req.cursor) {
         query.append(sql` AND ${schema.items.name} > ${req.cursor.name}`);
       }
 
-      query.append(
-        sql` ORDER BY ${schema.items.isDir} DESC, ${schema.items.name} ASC`
-      );
-      query.append(sql` LIMIT ${limit}`);
+      if (req.isNested) {
+        query.append(
+          sql` ORDER BY LOWER(${schema.items.parentDir}) ASC, LOWER(${schema.items.name}) ASC`
+        );
+      } else {
+        query.append(
+          sql` ORDER BY ${schema.items.isDir} DESC, LOWER(${schema.items.name}) ASC`
+        );
+      }
 
-      const rows = await this.db.execute(query);
+      if (!req.isNested) {
+        query.append(sql` LIMIT ${limit}`);
+      }
 
-      for (const row of rows) {
-        items.push({
-          id: row.id,
-          name: row.name,
-          parentDir: row.parentDir,
-          isDir: row.isDir,
-          size: row.size,
-          createdAt: row.createdAt,
-          updatedAt: row.updatedAt,
-        });
+      let rows = await this.db.execute(query);
+
+      if (!req.isNested) {
+        for (const row of rows) {
+          items.push({
+            id: row.id,
+            name: row.name,
+            parentDir: row.parentDir,
+            isDir: row.isDir,
+            size: row.size,
+            createdAt: row.createdAt,
+            updatedAt: row.updatedAt,
+          });
+        }
+      } else {
+        let itemObjects: { [x: string]: ItemObject } = {};
+
+        for (const row of rows) {
+          if (row.parentDir === "/") {
+            itemObjects[row.name] = {
+              id: row.id,
+              name: row.name,
+              parentDir: row.parentDir,
+              isDir: row.isDir,
+              items: row.isDir ? {} : undefined,
+              size: row.size,
+              createdAt: row.createdAt,
+              updatedAt: row.updatedAt,
+            };
+          } else {
+            let parentDirSegments = row.parentDir.split("/");
+            let currentItem: ItemObject | null = null;
+
+            for (const segment of parentDirSegments) {
+              if (!segment) continue;
+              currentItem = itemObjects[segment];
+            }
+
+            if (currentItem && currentItem.items) {
+              currentItem.items[row.name] = {
+                id: row.id,
+                name: row.name,
+                parentDir: row.parentDir,
+                isDir: row.isDir,
+                items: row.isDir ? {} : undefined,
+                size: row.size,
+                createdAt: row.createdAt,
+                updatedAt: row.updatedAt,
+              };
+            }
+          }
+        }
+
+        // Transform the object into an array
+        for (const key in itemObjects) {
+          items.push(this.transformItemObjectToItem(itemObjects[key]));
+        }
       }
     } catch (error) {
       console.error(error);
@@ -60,6 +125,23 @@ export class ItemRepository implements IItemRepository {
 
     return {
       data: items,
+    };
+  }
+
+  transformItemObjectToItem(itemObject: ItemObject): Item {
+    return {
+      id: itemObject.id,
+      name: itemObject.name,
+      parentDir: itemObject.parentDir,
+      isDir: itemObject.isDir,
+      items: itemObject.items
+        ? Object.entries(itemObject.items).map(([, item]) =>
+            this.transformItemObjectToItem(item)
+          )
+        : undefined,
+      size: itemObject.size,
+      createdAt: itemObject.createdAt,
+      updatedAt: itemObject.updatedAt,
     };
   }
 

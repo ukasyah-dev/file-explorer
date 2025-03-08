@@ -40,7 +40,7 @@ describe("listDirectory", () => {
   });
 
   test("success", async () => {
-    const items = await itemRepository.listItems("/");
+    const items = await itemRepository.listItems({ path: "/" });
     expect(items).toHaveLength(3);
   });
 });

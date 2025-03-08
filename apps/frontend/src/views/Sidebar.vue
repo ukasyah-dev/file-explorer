@@ -1,60 +1,31 @@
 <script setup lang="ts">
-import type { Item } from '@/types'
 import { onMounted, ref } from 'vue'
+import Tree from '@/components/Tree.vue'
+import type { Item } from '@/types'
+import axios from 'axios'
 import wait from 'wait'
-import Tree from './Tree.vue'
 
 let isLoading = ref(true)
+let items = ref<Item[]>([])
 
 onMounted(async () => {
-  await wait(2000)
-  isLoading.value = false
-})
+  await wait(1000)
 
-const items: Item[] = [
-  {
-    id: 1,
-    name: 'Home',
-    isDir: true,
-    items: [
-      {
-        id: 6,
-        name: 'User',
-        isDir: true,
-        isOpen: true,
-        items: [
-          {
-            id: 7,
-            name: 'index.html',
-            isDir: false,
-          },
-        ],
-      },
-      {
-        id: 4,
-        name: 'index.html',
-        isDir: false,
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Documents',
-    isDir: true,
-    items: [
-      {
-        id: 5,
-        name: 'Monthly Report - January 2023.pdf',
-        isDir: false,
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: 'my-data.csv',
-    isDir: false,
-  },
-]
+  try {
+    let _items: Item[] = []
+
+    const res = await axios.get<{ data: Item[] }>('/items/browse/?isNested=true&isDir=true')
+
+    res.data.data.forEach(item => {
+      _items.push(item)
+    })
+
+    items.value = _items
+    isLoading.value = false
+  } catch (error) {
+    alert(error)
+  }
+})
 </script>
 
 <template>

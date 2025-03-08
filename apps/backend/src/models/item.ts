@@ -3,6 +3,18 @@ export interface Item {
   name: string;
   parentDir: string;
   isDir: boolean;
+  items?: Item[];
+  size: number;
+  content?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface ItemObject {
+  id: number;
+  name: string;
+  parentDir: string;
+  isDir: boolean;
+  items?: { [key: string]: ItemObject };
   size: number;
   content?: string;
   createdAt: Date;
@@ -11,6 +23,8 @@ export interface Item {
 
 export interface ListItemsRequest {
   path: string;
+  isNested?: boolean;
+  isDir?: boolean;
   cursor?: {
     isDir: boolean;
     name: String;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Sidebar from './components/Sidebar.vue'
 import Viewer from './components/Viewer.vue'
+import Sidebar from './views/Sidebar.vue'
 
 </script>
 

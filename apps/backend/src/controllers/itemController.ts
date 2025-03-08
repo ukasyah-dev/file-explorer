@@ -3,77 +3,32 @@ import { ItemService } from "../services";
 
 export const itemController = (itemService: ItemService) => {
   return new Elysia().group("/items", (app) => {
-    app.get(
-      "/browse/*",
-      async ({ params, query }) => {
-        let cursor: { isDir: boolean; name: string } | undefined = undefined;
+    app.get("/browse/*", async ({ params, query }) => {
+      const isNested = "isNested" in query && query["isNested"] === "true";
+      const isDir = "isDir" in query && query["isDir"] === "true";
 
-        if ("cursor.isDir" in query && "cursor.name" in query) {
-          cursor = {
-            isDir: query["cursor.isDir"] === "true",
-            name: query["cursor.name"],
-          };
-        }
-        // console.log("http query:", query);
+      let cursor: { isDir: boolean; name: string } | undefined = undefined;
 
-        const result = await itemService.listItems({
-          path: params["*"],
-          cursor,
-        });
-        return result;
-      },
-      {
-        detail: {
-          summary: "List directory",
-          description: "List directory by path",
-          tags: ["Item"],
-        },
-        response: {
-          200: t.Object({
-            data: t.Array(
-              t.Object({
-                id: t.Number(),
-                name: t.String(),
-                parentDir: t.String(),
-                isDir: t.Boolean(),
-                size: t.Number(),
-                createdAt: t.Date(),
-                updatedAt: t.Date(),
-              })
-            ),
-          }),
-        },
+      if ("cursor.isDir" in query && "cursor.name" in query) {
+        cursor = {
+          isDir: query["cursor.isDir"] === "true",
+          name: query["cursor.name"],
+        };
       }
-    );
 
-    app.get(
-      "/view/*",
-      async ({ params }) => {
-        const result = await itemService.viewItem(params["*"]);
-        return result;
-      },
-      {
-        detail: {
-          summary: "View item",
-          description: "View item detail by path",
-          tags: ["Item"],
-        },
-        response: {
-          200: t.Object({
-            data: t.Object({
-              id: t.Number(),
-              name: t.String(),
-              parentDir: t.String(),
-              isDir: t.Boolean(),
-              size: t.Number(),
-              content: t.Optional(t.String()),
-              createdAt: t.Date(),
-              updatedAt: t.Date(),
-            }),
-          }),
-        },
-      }
-    );
+      const result = await itemService.listItems({
+        path: params["*"],
+        isNested,
+        isDir,
+        cursor,
+      });
+      return result;
+    });
+
+    app.get("/view/*", async ({ params }) => {
+      const result = await itemService.viewItem(params["*"]);
+      return result;
+    });
 
     return app;
   });
