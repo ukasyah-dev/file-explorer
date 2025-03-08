@@ -1,15 +1,11 @@
-# Elysia with Bun runtime
+# file-explorer-backend
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
+This is the backend service for file-explorer.
 
-## Development
-To start the development server run:
-```bash
-bun run dev
-```
+## Endpoints
 
-Open http://localhost:3000/ with your browser to see the result.
+### Items
+
+| Method | Endpoint          | Description                           |
+| ------ | ----------------- | ------------------------------------- |
+| GET    | `/items/browse/*` | List all items (folders and/or files) |
