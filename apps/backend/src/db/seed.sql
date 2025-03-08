@@ -9,10 +9,11 @@ VALUES
   ('Downloads', 'folder', '/'),
   ('Photos', 'folder', '/'),
   ('Videos', 'folder', '/'),
+  ('projects', 'folder', '/'),
 
   -- Subfolders inside Documents
   ('work', 'folder', '/Documents'),
-  ('personal', 'folder', '/Documents'),
+  ('Personal', 'folder', '/Documents'),
   ('finance', 'folder', '/Documents'),
 
   -- Nested subfolders inside work
@@ -38,8 +39,8 @@ VALUES
   ('client_call_recording.mp3', 'file', '/Documents/work/meetings'),
 
   -- Personal folder files
-  ('journal.txt', 'file', '/Documents/personal'),
-  ('travel_plan.pdf', 'file', '/Documents/personal'),
+  ('journal.txt', 'file', '/Documents/Personal'),
+  ('travel_plan.pdf', 'file', '/Documents/Personal'),
 
   -- Downloads
   ('installer.exe', 'file', '/Downloads'),
@@ -58,4 +59,10 @@ VALUES
 
   -- Music
   ('favorite_song.mp3', 'file', '/Music'),
-  ('playlist.m3u', 'file', '/Music');
+  ('playlist.m3u', 'file', '/Music'),
+
+  -- Projects
+  ('Danantara', 'folder', '/projects'),
+  ('MBG', 'folder', '/projects'),
+  ('confidentials', 'folder', '/projects');
+

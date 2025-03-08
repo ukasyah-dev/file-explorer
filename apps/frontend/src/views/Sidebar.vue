@@ -14,7 +14,7 @@ onMounted(async () => {
   try {
     let _items: Item[] = []
 
-    const res = await axios.get<{ data: Item[] }>('/items/browse/?isNested=true&isDir=true')
+    const res = await axios.get<{ data: Item[] }>('/items/browse/?type=folder&recursive=true')
 
     res.data.data.forEach(item => {
       _items.push(item)
@@ -29,22 +29,26 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="w-64 relative bg-gray-100 border-b border-gray-300">
-    <p class="text-2xl font-semibold px-6 py-5">File Explorer</p>
+  <div class="w-72 h-full flex flex-col relative bg-gray-100 border-b border-gray-300">
+    <div class="px-6 py-5 flex-shrink-0">
+      <p class="text-2xl font-semibold">File Explorer</p>
+    </div>
 
-    <Transition>
-      <div v-if="isLoading" class="absolute z-10 inset-x-0 flex flex-col gap-2.5 mt-3 px-6 opacity-60">
-        <div v-for="i in 4" :key="i" class="h-8 flex items-center">
-          <div class="w-full h-6 bg-gray-300 rounded-md animate-pulse animate-duration-[1.25s] duration-75"></div>
+    <div class="flex-1 overflow-auto py-4">
+      <Transition>
+        <div v-if="isLoading" class="absolute z-10 inset-x-0 flex flex-col gap-2.5 mt-1 px-6 opacity-60">
+          <div v-for="i in 4" :key="i" class="h-8 flex items-center">
+            <div class="w-full h-6 bg-gray-300 rounded-md animate-pulse animate-duration-[1.25s] duration-75"></div>
+          </div>
         </div>
-      </div>
-    </Transition>
+      </Transition>
 
-    <Transition>
-      <div v-if="!isLoading" class="mt-2 px-3">
-        <Tree :items="items" />
-      </div>
-    </Transition>
+      <Transition>
+        <div v-if="!isLoading" class="px-3">
+          <Tree :items="items" />
+        </div>
+      </Transition>
+    </div>
   </div>
 </template>
 

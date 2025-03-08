@@ -26,7 +26,7 @@ const toggleExpand = (item: Item) => {
 <template>
   <div class="flex flex-col items-stretch gap-0.5">
     <div v-for="item in items" :key="item.id">
-      <div v-if="item.isDir">
+      <div v-if="item.type === 'folder'">
         <TreeItem :item="item" :is-expanded="expandedItemIds.includes(item.id)" @item-click="toggleOpen"
           @chevron-click="toggleExpand" />
 
