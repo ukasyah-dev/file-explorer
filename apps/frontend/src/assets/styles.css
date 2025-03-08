@@ -15,7 +15,7 @@ body,
 
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.2s ease-in;
+  transition: opacity 0.15s ease-in;
 }
 
 .v-enter-from,

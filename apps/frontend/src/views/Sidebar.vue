@@ -9,7 +9,7 @@ let isLoading = ref(true)
 let items = ref<Item[]>([])
 
 onMounted(async () => {
-  await wait(500)
+  await wait(350)
 
   try {
     let _items: Item[] = []

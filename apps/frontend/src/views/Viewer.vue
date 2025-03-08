@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { computed, ref, watch } from 'vue';
 import { viewer } from '@/stores';
 import type { Item } from '@/types';
 import axios from 'axios';
-import { computed, ref, watch } from 'vue';
 import wait from 'wait';
 
 let isLoading = ref(true)
@@ -40,10 +40,13 @@ watch(viewer, async (v) => {
       </div>
 
       <div class="relative mt-3">
+        <!-- Skeleton -->
         <Transition>
           <div v-if="isLoading" class="absolute z-10 inset-x-0 grid grid-cols-7 gap-8 opacity-60">
             <div v-for="i in 3" :key="i" class="flex flex-col items-center gap-3">
-              <div class="w-full h-20 bg-gray-300 rounded-md animate-pulse animate-duration-[1.25s] duration-75"></div>
+              <div class="h-16 flex items-center justify-center">
+                <div class="w-20 h-16 bg-gray-300 rounded-md animate-pulse animate-duration-[1.25s] duration-75"></div>
+              </div>
               <div class="w-2/3 h-5 bg-gray-300 rounded-md animate-pulse animate-duration-[1.25s] duration-75"></div>
             </div>
           </div>
@@ -52,7 +55,8 @@ watch(viewer, async (v) => {
         <Transition>
           <div v-if="!isLoading" class="grid grid-cols-7 gap-8">
             <div v-for="item in items" :key="item.id">
-              <div v-if="item.type === 'folder'" class="flex flex-col items-center gap-1.5">
+              <div v-if="item.type === 'folder'" class="flex flex-col items-center gap-1.5 cursor-pointer"
+                @click="viewer.item = item">
                 <div class="h-16 flex items-center justify-center">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="w-16 h-16 text-gray-400">
                     <path fill="currentColor"
