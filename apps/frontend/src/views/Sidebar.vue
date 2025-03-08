@@ -9,7 +9,7 @@ let isLoading = ref(true)
 let items = ref<Item[]>([])
 
 onMounted(async () => {
-  await wait(1000)
+  await wait(500)
 
   try {
     let _items: Item[] = []
@@ -30,11 +30,11 @@ onMounted(async () => {
 
 <template>
   <div class="w-72 h-full flex flex-col relative bg-gray-100 border-b border-gray-300">
-    <div class="px-6 py-5 flex-shrink-0">
-      <p class="text-2xl font-semibold">File Explorer</p>
+    <div class="px-6 h-20 flex items-center flex-shrink-0">
+      <p class="text-xl font-semibold">File Explorer</p>
     </div>
 
-    <div class="flex-1 overflow-auto py-4">
+    <div class="flex-1 overflow-auto py-2">
       <Transition>
         <div v-if="isLoading" class="absolute z-10 inset-x-0 flex flex-col gap-2.5 mt-1 px-6 opacity-60">
           <div v-for="i in 4" :key="i" class="h-8 flex items-center">
@@ -51,15 +51,3 @@ onMounted(async () => {
     </div>
   </div>
 </template>
-
-<style>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.2s ease-in;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
-</style>

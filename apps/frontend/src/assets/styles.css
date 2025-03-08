@@ -12,3 +12,13 @@ body,
   font-optical-sizing: auto;
   font-variation-settings: 'wdth' 100;
 }
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease-in;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
